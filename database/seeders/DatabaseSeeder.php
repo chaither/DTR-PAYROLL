@@ -17,9 +17,19 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        // Create a regular test user
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+
+        // Create an admin user for the admin-only login form
+        // Email is used as username in the login form
+        User::factory()->create([
+            'name' => 'Administrator',
+            'email' => 'admin@admin.com',
+            // The User model casts 'password' => 'hashed', so passing plain text will be hashed
+            'password' => 'password',
         ]);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -22,7 +24,7 @@ class AuthController extends Controller
         $adminPassword = config('admin.password');
         $adminName = config('admin.name');
         
-        // Validate admin credentials
+        // Validate admin credentials from config
         if ($username === $adminUsername && $password === $adminPassword) {
             // Store user session
             Session::put('user', [
@@ -30,7 +32,23 @@ class AuthController extends Controller
                 'role' => config('admin.role'),
                 'name' => $adminName
             ]);
-            
+
+            return redirect()->route('dashboard');
+        }
+
+        // Fallback: try database-backed authentication (email as username)
+        $user = User::where('email', $username)->first();
+        if ($user && Hash::check($password, $user->password)) {
+            // Determine role: if this user's email matches the configured admin username/email, treat as admin
+            $role = ($username === $adminUsername) ? config('admin.role') : 'user';
+
+            Session::put('user', [
+                'username' => $user->email,
+                'role' => $role,
+                'name' => $user->name,
+                'id' => $user->id,
+            ]);
+
             return redirect()->route('dashboard');
         }
         

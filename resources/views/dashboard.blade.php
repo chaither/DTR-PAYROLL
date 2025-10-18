@@ -208,7 +208,7 @@
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h3>
                 <div class="space-y-4">
                     <!-- Run Payroll -->
-                    <div class="action-card bg-white rounded-xl p-4 shadow-sm cursor-pointer">
+                    <a href="{{ route('payroll.index') }}" class="action-card bg-white rounded-xl p-4 shadow-sm block">
                         <div class="flex items-center space-x-3">
                             <div class="bg-hris-light-teal bg-opacity-10 rounded-full p-2">
                                 <svg class="w-5 h-5 hris-text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,7 +217,7 @@
                             </div>
                             <span class="text-gray-700 font-medium">Run Payroll</span>
                         </div>
-                    </div>
+                    </a>
                     
                     <!-- Add New Employee -->
                     <div class="action-card bg-white rounded-xl p-4 shadow-sm cursor-pointer">
